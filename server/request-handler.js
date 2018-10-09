@@ -12,7 +12,7 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 var http = require('http');
-var data = []
+var data = {results: []};
 var requestHandler = function(request, response) {
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
   var statusCode = 200;
@@ -24,15 +24,13 @@ var requestHandler = function(request, response) {
       statusCode = 200;
 
     } else if(request.method === 'POST'){
-      let body = [];
+      let body = '';
       statusCode = 201;
       request.on('data',chunk => {
-        console.log(chunk)
-        body.push(chunk);
-        console.log(body)
+        body += chunk.toString();
       }).on('end',() =>{
-        data.push((Buffer.concat(body).toString()).split('='))
-        response.end(JSON.stringify({results: data}));
+        body = JSON.parse(body)
+        data.results.push(body)
       });
     }
   } else{
@@ -42,7 +40,7 @@ var requestHandler = function(request, response) {
   }
 
   response.writeHead(statusCode, headers);
-  response.end(JSON.stringify({results:data}));
+  response.end(JSON.stringify(data));
 };
 var defaultCorsHeaders = {
   'access-control-allow-origin': '*',

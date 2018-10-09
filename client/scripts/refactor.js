@@ -79,7 +79,7 @@ app = {
       // data: { order: '-createdAt' },
       contentType: 'application/json',
       success: function(json) {
-        console.log(json);
+        console.log("LOAD",json)
         app.displayMessages(json.results);
       },
       complete: function() {
@@ -96,8 +96,7 @@ app = {
       data: message,
       contentType: 'application/json',
       success: function(json) {
-        console.log('success post')
-        console.log(json);
+        console.log("JSON",json)
         message.objectId = json.objectId;
         app.displayMessage(message);
       },
