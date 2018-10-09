@@ -12,17 +12,15 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 var http = require('http');
-var data = {results: [{username:'test',text:'test',objectId:9999,roomname:'lobby'}]};
+var data = {results: []};
 var requestHandler = function(request, response) {
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
   var statusCode = 200;
   var headers = defaultCorsHeaders;
   headers['Content-Type'] = 'application/json';
-
   if(request.url === '/classes/messages'){
     if(request.method === 'GET'){
       statusCode = 200;
-
     } else if(request.method === 'POST'){
       let body = '';
       statusCode = 201;
@@ -39,7 +37,6 @@ var requestHandler = function(request, response) {
     response.writeHead(statusCode, headers);
     response.end();
   }
-
   response.writeHead(statusCode, headers);
   response.end(JSON.stringify(data));
 };
