@@ -12,7 +12,7 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 var http = require('http');
-var data = {results: []};
+var data = {results: [{username:'test',text:'test',objectId:9999,roomname:'lobby'}]};
 var requestHandler = function(request, response) {
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
   var statusCode = 200;
@@ -29,8 +29,9 @@ var requestHandler = function(request, response) {
       request.on('data',chunk => {
         body += chunk.toString();
       }).on('end',() =>{
-        body = JSON.parse(body)
-        data.results.push(body)
+        body = JSON.parse(body);
+        body.objectId = Math.floor(Math.random() * 9999);
+        data.results.push(body);
       });
     }
   } else{
